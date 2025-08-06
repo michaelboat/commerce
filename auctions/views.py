@@ -99,20 +99,9 @@ def createListing(request):
 
 
 def show_category(request):
-    #selected_categoryname = request.POST["category"].categoryName
     if request.method == "POST":
         category = request.POST.get('category')
         return redirect("show_category_detail", name=category)
-
-        # selected_category = Category.objects.get(
-        #     categoryName = request.POST["category"]
-        # )
-        # active_listings = Listing.objects.filter(category = selected_category)
-        # all_categories = Category.objects.all()
-        # return render(request, "auctions/index.html", {
-        #     "active_listings": active_listings,
-        #     "categories": all_categories
-        # })
     
 
 def show_category_detail(request, name):
@@ -124,4 +113,10 @@ def show_category_detail(request, name):
     return render(request, "auctions/index.html", {
         "active_listings": active_listings,
         "categories": all_categories
+    })
+
+def show_listing(request, id):
+    listing = Listing.objects.get(pk=id)
+    return render(request, "auctions/listing.html", {
+        "listing": listing
     })
