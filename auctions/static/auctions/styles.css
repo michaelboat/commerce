@@ -2,38 +2,4 @@ body {
     padding: 10px;
 }
 
-/* Container for the card deck */
-.card-deck-container {
-    max-width: 1140px;      /* Limit the width (adjust as needed) */
-    margin: 2rem auto;      /* Center and add vertical spacing */
-    padding: 0 1rem;        /* Add horizontal padding */
-}
 
-/* Style each card in the deck */
-.card-deck .card {
-    border: none;                 /* Remove border for a cleaner look */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);  /* Subtle shadow */
-    border-radius: 27px;          /* Smooth corners */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    max-width: min-content;
-}
-
-/* Hover effect */
-.card-deck .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-}
-
-/* Optional: Image rounding */
-.card-deck .card img {
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    object-fit:cover;
-}
-
-/* Responsive spacing between cards */
-@media (min-width: 768px) {
-    .card-deck .card {
-        margin-bottom: 1.5rem;
-    }
-}

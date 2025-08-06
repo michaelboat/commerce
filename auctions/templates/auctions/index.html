@@ -2,8 +2,16 @@
 
 {% block body %}
     <h2>Active Listings</h2>
-    <form action="" method="POST">
+    <form action="{ url 'show_category' selected_categoryname=selected_categoryname}" method="POST">
         {% csrf_token %}
+        <label for="category">Select Category:</label>
+        <select name="category">
+            {% for cat in categories %}
+                <option>{{ cat }}</option>
+            {% endfor %}
+        </select>
+        <input type="hidden" name="selected_categoryname" value="{{ cat }}">
+        <button type="submit">Select</button>
     </form>
     <div class="row mx-3"> 
         {% for listing in active_listings %}
