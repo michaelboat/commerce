@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from .models import User, Category, Listing
@@ -98,15 +98,30 @@ def createListing(request):
         return HttpResponseRedirect(reverse("index"))
 
 
-def show_category(request, selected_categoryname):
+def show_category(request):
     #selected_categoryname = request.POST["category"].categoryName
     if request.method == "POST":
-        selected_category = Category.objects.get(
-            categoryName = request.POST["category"]
-        )
-        active_listings = Listing.objects.filter(category = selected_category)
-        all_categories = Category.objects.all()
-        return render(request, "auctions/index.html", {
-            "active_listings": active_listings,
-            "categories": all_categories
-        })
+        category = request.POST.get('category')
+        return redirect("show_category_detail", name=category)
+
+        # selected_category = Category.objects.get(
+        #     categoryName = request.POST["category"]
+        # )
+        # active_listings = Listing.objects.filter(category = selected_category)
+        # all_categories = Category.objects.all()
+        # return render(request, "auctions/index.html", {
+        #     "active_listings": active_listings,
+        #     "categories": all_categories
+        # })
+    
+
+def show_category_detail(request, name):
+    selected_category = Category.objects.get(
+        categoryName = name
+    )
+    active_listings = Listing.objects.filter(category = selected_category)
+    all_categories = Category.objects.all()
+    return render(request, "auctions/index.html", {
+        "active_listings": active_listings,
+        "categories": all_categories
+    })
