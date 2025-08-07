@@ -97,6 +97,7 @@ def createListing(request):
             owner = curr_user,
             category = category
         )
+        bid.save()
         user_listing.save()
 
         return HttpResponseRedirect(reverse("index"))

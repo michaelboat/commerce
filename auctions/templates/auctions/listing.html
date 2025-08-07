@@ -25,7 +25,7 @@
     <h4>Listing Price: ${{ listing.price.bid }}</h4>
     <h4>Seller: {{listing.owner}}</h4>
     {% if user.is_authenticated %}
-    <form action="{% url 'add_bid' id=listing.id %}" method="post">
+    <form action="{% url 'addBid' id=listing.id %}" method="post">
         {% csrf_token %}
         <div class="form-group">
             <label for="comment">Put Bid</label>
