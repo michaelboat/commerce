@@ -22,9 +22,18 @@
         style="width: 400px;height: auto;display:flex ;">
     </div>
     <p>{{  listing.description }}</p>
-    <h4>Price: ${{listing.price}}</h4>
+    <h4>Listing Price: ${{ listing.price.bid }}</h4>
     <h4>Seller: {{listing.owner}}</h4>
-
+    {% if user.is_authenticated %}
+    <form action="{% url 'add_bid' id=listing.id %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="comment">Put Bid</label>
+            <textarea type="number" min="0" class="form-control" name="user_bid" placeholder="Write your comment..."></textarea>
+            <button type="submit">Submit Bid</button>
+        </div>
+    </form>
+    {% endif%}
     <div>
         {% if user.is_authenticated %}
         <form action="{% url 'addComment' id=listing.id %}" method="post">
@@ -46,7 +55,7 @@
                     <br/>
                     <p>posted by <strong>{{ comment.author }}</strong></p>
                 </li>
+            {% endfor %}
         </ul>
-        {% endfor %}
     </div>
 {% endblock %}

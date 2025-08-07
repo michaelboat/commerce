@@ -164,3 +164,19 @@ def addComment(request, id):
     )
     comment.save()
     return HttpResponseRedirect(reverse("show_listing", args=(id, )))
+
+
+def add_bid(request, id):
+    user = request.user
+    curr_listing = Listing.objects.get(pk=id)
+    user_bid_price = request.POST["user_bid"]
+    if user_bid_price >  curr_listing.price.bid:
+        new_bid = Bid(
+            bid = user_bid_price,
+            user = user )
+        new_bid.save()
+        curr_listing.price = new_bid
+        curr_listing.save()
+        return HttpResponseRedirect(reverse("show_listing", args=(id, ), kwargs="Bid placed succesfully"))
+    else:
+        return HttpResponseRedirect(reverse("show_listing", args=(id, ), kwargs=f"Bid must be minimum {curr_listing.price.bid}"))
