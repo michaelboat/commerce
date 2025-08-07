@@ -13,13 +13,19 @@
     </div>
     <div class="row">
         {% if user.is_authenticated %}
+            {% if is_owner %}
+                <form action="{% url 'close_listing' id=listing.id %}" method="post" class="mx-3">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Close Listing</button>
+                </form>
+            {% endif %}
             {% if inUserWatchlist %}
-                <form action="{% url 'removeFromWatchlist' id=listing.id %}" method="post">
+                <form action="{% url 'removeFromWatchlist' id=listing.id %}" method="post" class="mx-3">
                     {% csrf_token %}
                     <button type="submit">Remove from Watchlist</button>
                 </form>
             {% else %}
-            <form action="{% url 'addToWatchlist' id=listing.id %}" method="post">
+            <form action="{% url 'addToWatchlist' id=listing.id %}" method="post" class="mx-3">
                     {% csrf_token %}
                     <button type="submit">Add To Watchlist</button>
                 </form>
@@ -34,7 +40,7 @@
     <h4>Listing Price: ${{ listing.price.bid }}</h4>
     <h4>Seller: {{listing.owner}}</h4>
     {% if user.is_authenticated %}
-    <form action="{% url 'addBid' id=listing.id %}" method="post">
+    <form action="{% url 'addBid' id=listing.id %}" method="post" class="mx-3">
         {% csrf_token %}
         <div class="form-group">
             <label for="comment">Place Bid</label>
@@ -45,7 +51,7 @@
     {% endif%}
     <div>
         {% if user.is_authenticated %}
-        <form action="{% url 'addComment' id=listing.id %}" method="post">
+        <form action="{% url 'addComment' id=listing.id %}" method="post" class="mx-3">
             {% csrf_token %}
             <div class="form-group">
                 <label for="comment">Add a new Comment: </label>

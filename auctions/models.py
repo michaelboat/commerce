@@ -21,7 +21,7 @@ class Bid(models.Model):
 
 class Listing(models.Model):
     title = models.CharField(max_length=30)
-    description = models.CharField(max_length=300)
+    description = models.CharField(max_length=500)
     imageURL =  models.CharField(max_length=1000)
     price = models.ForeignKey(Bid, on_delete=models.CASCADE, blank=True, null=True, related_name="price")
     isActive = models.BooleanField(default=True)

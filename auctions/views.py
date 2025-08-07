@@ -127,10 +127,12 @@ def show_listing(request, id):
     listing = Listing.objects.get(pk=id)
     inUserWatchlist = request.user in listing.watchlist.all()
     comments = Comment.objects.filter(listing=listing)
+    is_owner = request.user.username == listing.owner.username
     return render(request, "auctions/listing.html", {
         "listing": listing,
         "inUserWatchlist": inUserWatchlist,
-        "comments": comments
+        "comments": comments,
+        "is_owner": is_owner
     })
 
 
@@ -173,6 +175,8 @@ def add_bid(request, id):
     user = request.user
     curr_listing = Listing.objects.get(pk=id)
     user_bid_price = float(request.POST["user_bid"])
+    comments = Comment.objects.filter(listing=curr_listing)
+    is_owner = request.user.username == curr_listing.owner.username
     if user_bid_price >  curr_listing.price.bid:
         new_bid = Bid(
             bid = user_bid_price,
@@ -183,11 +187,32 @@ def add_bid(request, id):
         return render(request, "auctions/listing.html", {
             "listing": curr_listing,
             "message": f"Successfully placed a bid of {user_bid_price}",
-            "update": True
+            "updated": True,
+            "comments": comments,
+            "is_owner": is_owner
         })
     else:
         return render(request, "auctions/listing.html", {
             "listing": curr_listing,
             "message": "Bid must be greater that current bid",
-            "update": False
+            "updated": False,
+            "comments": comments,
+            "is_owner": is_owner
         })
+    
+
+def close_listing(request, id):
+    listing = Listing.objects.get(pk=id)
+    comments = Comment.objects.filter(listing=listing)
+    inUserWatchlist = request.user in listing.watchlist.all()
+    is_owner = request.user.username == listing.owner.username
+    listing.isActive = False
+    listing.save()
+    return render(request,"auctions/listing.html", {
+        "listing": listing, 
+        "inUserWatchlist": inUserWatchlist,
+        "comments": comments,
+        "is_owner": is_owner,
+        "updated": True,
+        "message": "Your Listing has Been Closed" 
+    } )

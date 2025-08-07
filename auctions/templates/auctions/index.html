@@ -2,7 +2,7 @@
 
 {% block body %}
     <h2>Active Listings</h2>
-    <form action="{% url 'show_category'  %}" method="POST">
+    <form action="{% url 'show_category' %}" method="POST" class="mx-3">
         {% csrf_token %}
         <label for="category">Select Category:</label>
         <select name="category" required>
