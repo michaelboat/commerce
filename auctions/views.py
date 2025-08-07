@@ -110,6 +110,8 @@ def show_category(request):
     
 
 def show_category_detail(request, name):
+    if name == "All":
+        return HttpResponseRedirect(reverse("index"))
     selected_category = Category.objects.get(
         categoryName = name
     )

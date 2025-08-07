@@ -5,10 +5,12 @@
     <form action="{% url 'show_category'  %}" method="POST">
         {% csrf_token %}
         <label for="category">Select Category:</label>
-        <select name="category">
+        <select name="category" required>
+             <option value="" disabled selected hidden>Select category</option>
             {% for cat in categories %}
                 <option value="{{ cat }}">{{ cat }}</option>
             {% endfor %}
+                <option value="All">All</option>
         </select>
         <button type="submit">Select</button>
     </form>
