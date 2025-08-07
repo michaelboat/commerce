@@ -18,12 +18,16 @@ class Listing(models.Model):
     isActive = models.BooleanField(default=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE , blank = True, related_name="user")
     category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True, related_name="category")
+    watchlist = models.ManyToManyField(User, blank=True, null=True, related_name="userWatchlist")
 
     def __str__(self):
         return self.title
 
 class Bid(models.Model):
     pass
+
+# class Watchlist(models.Model):
+#     pass
 
 class Comment(models.Model):
     pass
