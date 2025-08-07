@@ -172,7 +172,7 @@ def addComment(request, id):
 def add_bid(request, id):
     user = request.user
     curr_listing = Listing.objects.get(pk=id)
-    user_bid_price = request.POST["user_bid"]
+    user_bid_price = float(request.POST["user_bid"])
     if user_bid_price >  curr_listing.price.bid:
         new_bid = Bid(
             bid = user_bid_price,
@@ -180,6 +180,14 @@ def add_bid(request, id):
         new_bid.save()
         curr_listing.price = new_bid
         curr_listing.save()
-        return HttpResponseRedirect(reverse("show_listing", args=(id, ), kwargs="Bid placed succesfully"))
+        return render(request, "auctions/listing.html", {
+            "listing": curr_listing,
+            "message": f"Successfully placed a bid of {user_bid_price}",
+            "update": True
+        })
     else:
-        return HttpResponseRedirect(reverse("show_listing", args=(id, ), kwargs=f"Bid must be minimum {curr_listing.price.bid}"))
+        return render(request, "auctions/listing.html", {
+            "listing": curr_listing,
+            "message": "Bid must be greater that current bid",
+            "update": False
+        })

@@ -2,6 +2,15 @@
 
 {% block body %}
     <h2>{{ listing.title }}</h2>
+    <div class="container">
+        {% if message %}
+            {% if updated %}
+            <div class="alert alert-sucess"  role="alert">{{ message }}</div>
+            {% else %}
+            <div class="alert alert-danger"  role="alert">{{ message }}</div>
+            {% endif %}
+        {% endif %}
+    </div>
     <div class="row">
         {% if user.is_authenticated %}
             {% if inUserWatchlist %}
@@ -28,9 +37,9 @@
     <form action="{% url 'addBid' id=listing.id %}" method="post">
         {% csrf_token %}
         <div class="form-group">
-            <label for="comment">Put Bid</label>
-            <textarea type="number" min="0" class="form-control" name="user_bid" placeholder="Write your comment..."></textarea>
-            <button type="submit">Submit Bid</button>
+            <label for="comment">Place Bid</label>
+            <input type="number" name="user_bid">
+            <button type="submit">Submit</button>
         </div>
     </form>
     {% endif%}
