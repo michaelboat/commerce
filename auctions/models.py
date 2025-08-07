@@ -23,11 +23,10 @@ class Listing(models.Model):
     def __str__(self):
         return self.title
 
+
 class Bid(models.Model):
     pass
 
-# class Watchlist(models.Model):
-#     pass
 
 class Comment(models.Model):
     pass

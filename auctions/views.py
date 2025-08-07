@@ -115,14 +115,15 @@ def show_category_detail(request, name):
         "categories": all_categories
     })
 
+
 def show_listing(request, id):
     listing = Listing.objects.get(pk=id)
     inUserWatchlist = request.user in listing.watchlist.all()
-    #try: inUserWatchlist
     return render(request, "auctions/listing.html", {
         "listing": listing,
         "inUserWatchlist": inUserWatchlist
     })
+
 
 def removeFromWatchlist(request, id):
     listing = Listing.objects.get(pk=id)
@@ -136,3 +137,11 @@ def addToWatchlist(request, id):
     user = request.user
     listing.watchlist.add(user)
     return HttpResponseRedirect(reverse("show_listing", args=(id, )))
+
+
+def viewWatchlist(request):
+    user = request.user
+    listings = user.userWatchlist.all()
+    return render(request, "auctions/watchlist.html", {
+        "listings": listings
+    })
