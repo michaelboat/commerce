@@ -29,5 +29,9 @@ class Bid(models.Model):
 
 
 class Comment(models.Model):
-    pass
+    author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="commenter")
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, blank=True, null=True,related_name="listing")
+    message = models.CharField(max_length=300)
 
+    def __str__(self):
+        return f"{self.author} made a comment of {self.listing}"
