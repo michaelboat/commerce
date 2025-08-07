@@ -2,6 +2,21 @@
 
 {% block body %}
     <h2>{{ listing.title }}</h2>
+    <div class="row">
+        {% if user.is_authenticated %}
+            {% if inUserWatchlist %}
+                <form action="{% url 'removeFromWatchlist' id=listing.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Remove from Watchlist</button>
+                </form>
+            {% else %}
+            <form action="{% url 'addToWatchlist' id=listing.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Add To Watchlist</button>
+                </form>
+            {% endif %}
+        {% endif %}             
+    </div>  
     <div>
         <img src="{{ listing.imageURL }}" alt="{{listing.title}}"
         style="width: 400px;height: auto;display:flex ;">
