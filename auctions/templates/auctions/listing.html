@@ -24,4 +24,29 @@
     <p>{{  listing.description }}</p>
     <h4>Price: ${{listing.price}}</h4>
     <h4>Seller: {{listing.owner}}</h4>
+
+    <div>
+        {% if user.is_authenticated %}
+        <form action="{% url 'addComment' id=listing.id %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="comment">Add a new Comment: </label>
+                <textarea type="text" class="form-control" name="comment" placeholder="Write your comment..."></textarea>
+                <button type="submit">Post Comment</button>
+            </div>
+        </form>
+        {% endif %} 
+    </div>
+    <div>
+        <h3>Comments:</h3>
+        <ul class="list-group">
+            {% for comment in comments%}
+                <li class="list-group-item">
+                    {{ comment.message }}
+                    <br/>
+                    <p>posted by <strong>{{ comment.author }}</strong></p>
+                </li>
+        </ul>
+        {% endfor %}
+    </div>
 {% endblock %}

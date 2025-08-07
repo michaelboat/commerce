@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .models import User, Category, Listing
+from .models import User, Category, Listing, Comment
 
 
 def index(request):
@@ -119,9 +119,11 @@ def show_category_detail(request, name):
 def show_listing(request, id):
     listing = Listing.objects.get(pk=id)
     inUserWatchlist = request.user in listing.watchlist.all()
+    comments = Comment.objects.filter(listing=listing)
     return render(request, "auctions/listing.html", {
         "listing": listing,
-        "inUserWatchlist": inUserWatchlist
+        "inUserWatchlist": inUserWatchlist,
+        "comments": comments
     })
 
 
@@ -145,3 +147,16 @@ def viewWatchlist(request):
     return render(request, "auctions/watchlist.html", {
         "listings": listings
     })
+
+
+def addComment(request, id):
+    user = request.user
+    curr_listing = Listing.objects.get(pk=id)
+    message = request.POST["comment"]
+    comment = Comment(
+        author = user,
+        listing = curr_listing,
+        message = message
+    )
+    comment.save()
+    return HttpResponseRedirect(reverse("show_listing", args=(id, )))
